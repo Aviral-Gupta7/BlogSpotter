@@ -3,6 +3,7 @@
 //Modules
 import express from "express";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 //Routes
 import { authRoutes } from "./routes/index.js";
@@ -17,6 +18,17 @@ app.listen(port, () => {
 });
 
 app.use(express.json());
+
+// ------ Setting Up Database ------ //
+
+mongoose
+  .connect(process.env.MONGODB_CONNECTION_STRING)
+  .then(() => {
+    console.log("Connected to Database");
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
 
 // ------ Routes ------ //
 
