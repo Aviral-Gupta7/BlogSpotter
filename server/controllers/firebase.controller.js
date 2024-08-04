@@ -12,12 +12,10 @@ export const uploadImage = async (req, res, next) => {
   // Get the storage bucket
   const storage = getStorage();
   try {
+    const pictureName = req.user._id || `images/${req.file.originalname}`;
     //Give a name to file
     const dateTime = giveCurrentDateTime();
-    const storageRef = ref(
-      storage,
-      `images/${req.file.originalname + "_" + dateTime}`
-    );
+    const storageRef = ref(storage, pictureName);
 
     //Create File Metadata
     const metadata = {
