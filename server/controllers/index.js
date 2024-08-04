@@ -2,7 +2,8 @@
 
 // Auth
 import { signup, login } from "./auth.controller.js";
+import { uploadImage } from "./firebase.controller.js";
 
 // ------ Exporting controllers ------ //
 
-export { signup, login };
+export { signup, login, uploadImage };

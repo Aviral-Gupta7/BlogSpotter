@@ -1,5 +1,6 @@
 // ------ IMPORTS ------ //
-import { createError } from "./error";
+import { createError } from "./error.js";
+import { giveCurrentDateTime } from "./getDataAndTime.js";
 
 // ------ EXPORTS ------ //
-export { createError };
+export { createError, giveCurrentDateTime };

@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 
 //Routes
-import { authRoutes } from "./routes/index.js";
+import { authRoutes, firebaseRoutes } from "./routes/index.js";
 
 // ------ Setting Up ------ //
 dotenv.config();
@@ -39,6 +39,7 @@ app.get("/helloworld", (req, res) => {
 
 // Auth Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/firebase", firebaseRoutes);
 
 // ------ Middleware ------ //
 
