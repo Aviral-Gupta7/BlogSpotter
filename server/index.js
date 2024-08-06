@@ -3,7 +3,7 @@
 //Modules
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import { connectDB } from "./utils/index.js";
 
 //Routes
 import { authRoutes, firebaseRoutes } from "./routes/index.js";
@@ -21,14 +21,7 @@ app.use(express.json());
 
 // ------ Setting Up Database ------ //
 
-mongoose
-  .connect(process.env.MONGODB_CONNECTION_STRING)
-  .then(() => {
-    console.log("Connected to Database");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+(async () => await connectDB())();
 
 // ------ Routes ------ //
 

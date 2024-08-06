@@ -2,7 +2,7 @@
 // Modules
 import express from "express";
 // Controllers
-import { signup, login } from "../controllers/index.js";
+import { signup, login, verifyToken } from "../controllers/index.js";
 
 // ------ Router Setup ------ //
 const router = express.Router();
@@ -11,6 +11,8 @@ const router = express.Router();
 
 //Signup
 router.post("/signup", signup);
+
+router.get("/verify-token/:id/:token", verifyToken);
 
 //Login
 router.post("/login", login);
