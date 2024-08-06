@@ -1,10 +1,9 @@
 // ------ Imports ------ //
-import { User } from "../models/index.js";
+import { User, validateUserSchema, Token } from "../models/index.js";
 import bcryptjs from "bcryptjs";
 import { createError } from "../utils/error.js";
 import { sendEmail } from "../utils/index.js";
 import crypto from "crypto";
-import { User, validateUserSchema, Token } from "../models/index.js";
 import { uploadImage } from "./index.js";
 
 //------ Controller functions ------ //
@@ -26,26 +25,30 @@ export const signup = async (req, res, next) => {
     }
     //Extracting the fields from the request
     const { username, email, password, gender } = req.body;
-
     // Validate gender
-    if (
-      gender != "male" ||
-      gender != "female" ||
-      gender != "other" ||
-      gender != "prefer not to say"
-    ) {
+    const genderEnum = ["male", "female", "other", "prefer not to say"];
+    const validateGender = (gender) => {
+      for (let i = 0; i < genderEnum.length; i++) {
+        if (genderEnum[i] == gender) {
+          return true;
+        }
+        return false;
+      }
+    };
+    if (!validateGender(gender)) {
       return next(createError(400, "gender not defined"));
     }
 
     //Hash the password
     const hashedPassword = await bcryptjs.hashSync(password, 12);
     //Generate the profile picture
-    if (gender == "prefer not to say" || gender == "other") {
-      const profilePic = `https://avatar.iran.liara.run/username?username=${username}`;
+    let profilePic;
+    if (gender == "male") {
+      profilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
+    } else if (gender == "female") {
+      profilePic = `https://avatar.iran.liara.run/public/girl?usernaem=${username}`;
     } else {
-      const profilePic = `https://avatar.iran.liara.run/public/${
-        gender == "male" ? "boy" : "girl"
-      }?username=${username}`;
+      profilePic = `https://avatar.iran.liara.run/username?username=${username}`;
     }
     //Create The User
     const newUser = new User({
